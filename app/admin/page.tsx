@@ -139,12 +139,22 @@ export default function AdminPage() {
     <div style={{ maxWidth: '760px', margin: '0 auto', padding: '40px 20px 80px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
         <h1 style={{ fontSize: '18px', fontWeight: '600', letterSpacing: '0.05em' }}>REXXIA 管理画面</h1>
-        <button
-          onClick={() => { localStorage.removeItem('admin_authed'); setIsAuthed(false) }}
-          style={{ fontSize: '12px', color: '#999', background: 'none', border: 'none', cursor: 'pointer' }}
-        >
-          ログアウト
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <a
+            href="/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ fontSize: '12px', color: '#1a1a1a', border: '1px solid #ddd', borderRadius: '6px', padding: '6px 14px', textDecoration: 'none', letterSpacing: '0.03em' }}
+          >
+            Topを見る →
+          </a>
+          <button
+            onClick={() => { localStorage.removeItem('admin_authed'); setIsAuthed(false) }}
+            style={{ fontSize: '12px', color: '#999', background: 'none', border: 'none', cursor: 'pointer' }}
+          >
+            ログアウト
+          </button>
+        </div>
       </div>
 
       {/* 追加フォーム */}
