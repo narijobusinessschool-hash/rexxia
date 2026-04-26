@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "name": "ツーリングドーム ST",
+    "brand": "Coleman",
+    "image": "https://m.media-amazon.com/images/P/B08P5811G7.jpg",
+    "url": "https://amzn.to/41bU6B0",
+    "category": "tent"
+  },
+  {
+    "id": 2,
+    "name": "レギュレーターストーブ ST-310",
+    "brand": "SOTO",
+    "image": "https://m.media-amazon.com/images/I/61HJen0jtuL._AC_SL1500_.jpg",
+    "url": "https://amzn.to/4c2ySKM",
+    "category": "burner"
+  },
+  {
+    "id": 3,
+    "name": "チェアワン ブラック",
+    "brand": "Helinox",
+    "image": "https://m.media-amazon.com/images/I/61mUoK73AuL._AC_SL1001_.jpg",
+    "url": "https://amzn.to/4dvohuq",
+    "category": "chairtable"
+  },
+  {
+    "id": 4,
+    "name": "簡易トイレ 非常用 防災グッズ",
+    "brand": "STULE",
+    "image": "https://m.media-amazon.com/images/I/71B+jOKEJXL._AC_SL1500_.jpg",
+    "url": "https://amzn.to/47HTZ3K",
+    "category": "others"
+  },
+  {
+    "id": 5,
+    "name": "カセットコンロ CB-ODX-1-BK",
+    "brand": "Iwatani",
+    "image": "https://m.media-amazon.com/images/I/61xnMeyEBoL._AC_SL1500_.jpg",
+    "url": "https://amzn.to/4mfktQj",
+    "category": "burner"
+  },
+  {
+    "id": 6,
+    "name": "ランタン USB充電式 1000ルーメン",
+    "brand": "Lepro",
+    "image": "https://m.media-amazon.com/images/I/51QvaCt0jsL._AC_SL1200_.jpg",
+    "url": "https://amzn.to/4vd5J8u",
+    "category": "lantern"
+  },
+  {
+    "id": 7,
+    "name": "エアーマット",
+    "brand": "Enuotek",
+    "image": "https://m.media-amazon.com/images/I/714tGKrU+-L._AC_SL1500_.jpg",
+    "url": "https://amzn.to/4sXsw5M",
+    "category": "bedding"
+  }
+]

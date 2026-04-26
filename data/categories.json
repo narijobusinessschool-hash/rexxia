@@ -1,0 +1,10 @@
+[
+  { "id": "tent", "name": "テント", "nameEn": "TENT", "slug": "tent" },
+  { "id": "burner", "name": "焚き火・バーナー", "nameEn": "FIRE / BURNER", "slug": "burner" },
+  { "id": "chairtable", "name": "チェア・テーブル", "nameEn": "CHAIR / TABLE", "slug": "chairtable" },
+  { "id": "lantern", "name": "ランタン", "nameEn": "LANTERN", "slug": "lantern" },
+  { "id": "tableware", "name": "クッカー・食器", "nameEn": "COOKER", "slug": "tableware" },
+  { "id": "wear", "name": "ウェア", "nameEn": "WEAR", "slug": "wear" },
+  { "id": "bedding", "name": "寝具", "nameEn": "BEDDING", "slug": "bedding" },
+  { "id": "others", "name": "その他", "nameEn": "OTHERS", "slug": "others" }
+]
