@@ -63,7 +63,10 @@ async function saveFile(products: unknown[], sha: string, message: string) {
     },
     body: JSON.stringify({ message, content, sha }),
   })
-  if (!res.ok) throw new Error('Failed to save')
+  if (!res.ok) {
+    const text = await res.text().catch(() => '')
+    throw new Error(`GitHub PUT ${res.status}: ${text.slice(0, 300)}`)
+  }
 }
 
 export async function GET() {
@@ -89,8 +92,8 @@ export async function POST(req: NextRequest) {
     const updated = [...products, { id: newId, name, brand: brand || '', image, url, category }]
     await saveFile(updated, sha, `Add product: ${name}`)
     return NextResponse.json({ success: true })
-  } catch {
-    return NextResponse.json({ error: 'Failed to save' }, { status: 500 })
+  } catch (e) {
+    return NextResponse.json({ error: (e as Error).message }, { status: 500 })
   }
 }
 
@@ -119,8 +122,8 @@ export async function PATCH(req: NextRequest) {
     })
     await saveFile(updated, sha, `Update product: ${target.name}`)
     return NextResponse.json({ success: true })
-  } catch {
-    return NextResponse.json({ error: 'Failed to save' }, { status: 500 })
+  } catch (e) {
+    return NextResponse.json({ error: (e as Error).message }, { status: 500 })
   }
 }
 
@@ -135,7 +138,7 @@ export async function DELETE(req: NextRequest) {
     const updated = (products as {id:number}[]).filter(p => p.id !== id)
     await saveFile(updated, sha, `Remove product: ${deleted?.name || id}`)
     return NextResponse.json({ success: true })
-  } catch {
-    return NextResponse.json({ error: 'Failed to save' }, { status: 500 })
+  } catch (e) {
+    return NextResponse.json({ error: (e as Error).message }, { status: 500 })
   }
 }

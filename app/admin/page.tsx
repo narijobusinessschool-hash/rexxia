@@ -111,7 +111,8 @@ export default function AdminPage() {
       setForm({ name: '', brand: '', image: '', url: '', category: 'tent' })
       fetchProducts()
     } else {
-      setMessage('エラーが発生しました')
+      const data = await res.json().catch(() => ({}))
+      setMessage(`エラー (${res.status}): ${data?.error || '不明'}`)
     }
     setLoading(false)
   }
@@ -153,7 +154,8 @@ export default function AdminPage() {
       setEditing(null)
       fetchProducts()
     } else {
-      setMessage('エラーが発生しました')
+      const data = await res.json().catch(() => ({}))
+      setMessage(`エラー (${res.status}): ${data?.error || '不明'}`)
     }
     setLoading(false)
   }
@@ -170,7 +172,8 @@ export default function AdminPage() {
       setMessage('✓ 削除しました。1〜2分後に反映されます。')
       fetchProducts()
     } else {
-      setMessage('エラーが発生しました')
+      const data = await res.json().catch(() => ({}))
+      setMessage(`エラー (${res.status}): ${data?.error || '不明'}`)
     }
     setLoading(false)
   }
