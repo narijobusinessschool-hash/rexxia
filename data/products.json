@@ -159,5 +159,13 @@
     "image": "https://m.media-amazon.com/images/I/618y-F-rOXL._AC_SL1500_.jpg",
     "url": "https://amzn.to/42tGHoq",
     "category": "burner"
+  },
+  {
+    "id": 21,
+    "name": "薪割りクサビ",
+    "brand": "Tokyo Camp",
+    "image": "https://m.media-amazon.com/images/I/71iE8Iw7B5L._AC_SL1200_.jpg",
+    "url": "https://amzn.to/4sV9A7X",
+    "category": "others"
   }
 ]
