@@ -1,36 +1,19 @@
+import { unstable_cache } from 'next/cache'
 import products from '@/data/products.json'
 import ProductCard from './ProductCard'
+import { upstashCmd, monthKey, POPULAR_TAG } from '@/lib/upstash'
 
-const KV_URL = process.env.KV_REST_API_URL
-const KV_TOKEN = process.env.KV_REST_API_TOKEN
-
-function monthKey(): string {
-  const d = new Date()
-  return `clicks:${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`
-}
-
-async function fetchTopIds(limit: number): Promise<number[]> {
-  if (!KV_URL || !KV_TOKEN) return []
-  try {
-    const key = monthKey()
-    const res = await fetch(
-      `${KV_URL}/zrevrange/${encodeURIComponent(key)}/0/${limit - 1}`,
-      {
-        headers: { Authorization: `Bearer ${KV_TOKEN}` },
-        next: { revalidate: 600 },
-      }
-    )
-    if (!res.ok) return []
-    const data = await res.json()
-    const arr: unknown = data?.result
-    if (!Array.isArray(arr)) return []
-    return arr
-      .map(s => Number(s))
+const fetchTopIds = unstable_cache(
+  async (limit: number): Promise<number[]> => {
+    const data = await upstashCmd(['ZREVRANGE', monthKey(), 0, limit - 1])
+    if (!Array.isArray(data)) return []
+    return data
+      .map(s => Number(String(s)))
       .filter((n): n is number => Number.isFinite(n))
-  } catch {
-    return []
-  }
-}
+  },
+  ['popular-products-top'],
+  { revalidate: 60, tags: [POPULAR_TAG] }
+)
 
 export default async function PopularProducts() {
   const ids = await fetchTopIds(10)
