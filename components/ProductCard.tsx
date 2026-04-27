@@ -19,7 +19,7 @@ export default function ProductCard({ product }: { product: Product }) {
       display: 'flex',
       flexDirection: 'column',
     }}>
-      <a href={product.url} target="_blank" rel="nofollow noopener noreferrer" style={{ display: 'block', flexShrink: 0 }}>
+      <a href={`/r/${product.id}`} target="_blank" rel="nofollow noopener noreferrer" style={{ display: 'block', flexShrink: 0 }}>
         <div style={{
           width: '100%',
           paddingTop: '100%',
@@ -68,7 +68,7 @@ export default function ProductCard({ product }: { product: Product }) {
           {product.name}
         </p>
         <a
-          href={product.url}
+          href={`/r/${product.id}`}
           target="_blank"
           rel="nofollow noopener noreferrer"
           style={{

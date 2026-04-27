@@ -1,6 +1,7 @@
 import products from '@/data/products.json'
 import CategoryGrid from '@/components/CategoryGrid'
 import ProductGrid from '@/components/ProductGrid'
+import PopularProducts from '@/components/PopularProducts'
 
 export default function Home() {
   return (
@@ -45,6 +46,9 @@ export default function Home() {
           CATEGORY
         </p>
         <CategoryGrid />
+
+        {/* 今月のランキング */}
+        <PopularProducts />
 
         {/* 商品一覧 */}
         <p style={{
