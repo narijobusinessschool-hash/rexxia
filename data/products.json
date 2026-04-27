@@ -384,5 +384,13 @@
     "image": "https://m.media-amazon.com/images/I/61sG341JUfL._AC_SL1100_.jpg",
     "url": "https://amzn.to/3OOtjb9",
     "category": "tableware"
+  },
+  {
+    "id": 49,
+    "name": "収納ボックス 大容量",
+    "brand": "ChillCamping",
+    "image": "https://m.media-amazon.com/images/I/61ftIpKLRVL._AC_SL1500_.jpg",
+    "url": "https://amzn.to/4mRrLK6",
+    "category": "others"
   }
 ]
