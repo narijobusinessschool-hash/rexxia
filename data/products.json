@@ -135,5 +135,13 @@
     "image": "https://m.media-amazon.com/images/I/71tlxbZZArL._AC_SL1500_.jpg",
     "url": "https://amzn.to/4vUmbe1",
     "category": "tableware"
+  },
+  {
+    "id": 18,
+    "name": "ジュニアコンパクトバーナー　CB-JCB",
+    "brand": "Iwatani",
+    "image": "https://m.media-amazon.com/images/I/61WQJr5ZCLL._AC_SL1500_.jpg",
+    "url": "https://amzn.to/4d9hHcc",
+    "category": "burner"
   }
 ]
