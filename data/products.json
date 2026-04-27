@@ -616,5 +616,13 @@
     "image": "https://m.media-amazon.com/images/I/51cWLzzr2RL._AC_SX679_.jpg",
     "url": "https://amzn.to/4vVG8Bl",
     "category": "wear"
+  },
+  {
+    "id": 78,
+    "name": "レインウェア",
+    "brand": "Burjosy",
+    "image": "https://m.media-amazon.com/images/I/61fh+36Gz+L._AC_SX679_.jpg",
+    "url": "https://amzn.to/42jqQcd",
+    "category": "wear"
   }
 ]
