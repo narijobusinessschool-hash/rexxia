@@ -328,5 +328,13 @@
     "image": "https://m.media-amazon.com/images/I/81pCEGKmhoL._AC_SL1500_.jpg",
     "url": "https://amzn.to/4datUgE",
     "category": "others"
+  },
+  {
+    "id": 42,
+    "name": "キャンプまくら waq-rcp1",
+    "brand": "WAQ",
+    "image": "https://m.media-amazon.com/images/I/71XmfSQWK4L._AC_SL1500_.jpg",
+    "url": "https://amzn.to/4mRyxj4",
+    "category": "bedding"
   }
 ]
