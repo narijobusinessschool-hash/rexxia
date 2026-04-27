@@ -175,5 +175,13 @@
     "image": "https://m.media-amazon.com/images/I/71PP9sCCS1L._AC_SL1500_.jpg",
     "url": "https://amzn.to/4mZCAdq",
     "category": "lantern"
+  },
+  {
+    "id": 23,
+    "name": "コンパクトグランドチェア",
+    "brand": "Coleman",
+    "image": "https://m.media-amazon.com/images/I/916eTjizuKL._AC_SL1500_.jpg",
+    "url": "https://amzn.to/4edzFv7",
+    "category": "chairtable"
   }
 ]
