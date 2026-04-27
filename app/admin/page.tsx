@@ -42,6 +42,8 @@ export default function AdminPage() {
   const [message, setMessage] = useState('')
   const [editing, setEditing] = useState<Product | null>(null)
   const [editForm, setEditForm] = useState({ image: '', url: '', published: true, category: 'tent' })
+  const [fetching, setFetching] = useState(false)
+  const [fetchError, setFetchError] = useState('')
 
   useEffect(() => {
     if (localStorage.getItem('admin_authed') === 'true') {
@@ -51,8 +53,26 @@ export default function AdminPage() {
   }, [])
 
   const fetchProducts = async () => {
-    const res = await fetch('/api/admin/products')
-    setProducts(await res.json())
+    setFetching(true)
+    setFetchError('')
+    try {
+      const res = await fetch('/api/admin/products', { cache: 'no-store' })
+      const data = await res.json()
+      if (!res.ok) {
+        setFetchError(`商品の取得に失敗 (${res.status}): ${data?.error || 'Unknown error'}`)
+        setProducts([])
+      } else if (Array.isArray(data)) {
+        setProducts(data)
+      } else {
+        setFetchError('商品の取得に失敗: レスポンス形式が不正')
+        setProducts([])
+      }
+    } catch (e) {
+      setFetchError(`商品の取得に失敗: ${(e as Error).message}`)
+      setProducts([])
+    } finally {
+      setFetching(false)
+    }
   }
 
   const handleLogin = async () => {
@@ -251,10 +271,29 @@ export default function AdminPage() {
       </div>
 
       {/* 商品一覧 */}
-      <h2 style={{ fontSize: '14px', fontWeight: '600', marginBottom: '14px', letterSpacing: '0.05em' }}>
-        商品一覧 <span style={{ color: '#999', fontWeight: '400' }}>({products.length}件)</span>
-      </h2>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+        <h2 style={{ fontSize: '14px', fontWeight: '600', letterSpacing: '0.05em' }}>
+          商品一覧 <span style={{ color: '#999', fontWeight: '400' }}>({products.length}件)</span>
+        </h2>
+        <button
+          onClick={fetchProducts}
+          disabled={fetching}
+          style={{ fontSize: '11px', color: '#666', background: 'none', border: '1px solid #ddd', borderRadius: '4px', padding: '4px 10px', cursor: fetching ? 'default' : 'pointer' }}
+        >
+          {fetching ? '取得中...' : '↻ 再読み込み'}
+        </button>
+      </div>
       <p style={{ fontSize: '11px', color: '#999', marginBottom: '12px' }}>商品をクリックすると編集できます</p>
+      {fetchError && (
+        <div style={{ background: '#fef2f2', border: '1px solid #fecaca', color: '#b91c1c', borderRadius: '6px', padding: '10px 12px', fontSize: '12px', marginBottom: '12px', wordBreak: 'break-all' }}>
+          {fetchError}
+        </div>
+      )}
+      {!fetching && !fetchError && products.length === 0 && (
+        <div style={{ background: '#f8f8f8', border: '1px solid #e8e8e8', borderRadius: '6px', padding: '16px', fontSize: '13px', color: '#666', textAlign: 'center', marginBottom: '12px' }}>
+          商品がありません
+        </div>
+      )}
       <div style={{ display: 'grid', gap: '8px' }}>
         {products.map(p => {
           const isPublished = p.published !== false

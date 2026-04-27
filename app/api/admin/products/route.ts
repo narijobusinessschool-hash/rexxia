@@ -9,6 +9,9 @@ function checkAuth(req: NextRequest) {
 }
 
 async function getFile() {
+  if (!process.env.GITHUB_TOKEN) {
+    throw new Error('GITHUB_TOKEN is not set')
+  }
   const res = await fetch(GITHUB_API, {
     headers: {
       Authorization: `token ${process.env.GITHUB_TOKEN}`,
@@ -16,7 +19,10 @@ async function getFile() {
     },
     cache: 'no-store',
   })
-  if (!res.ok) throw new Error('Failed to fetch')
+  if (!res.ok) {
+    const text = await res.text().catch(() => '')
+    throw new Error(`GitHub API ${res.status}: ${text.slice(0, 200)}`)
+  }
   const data = await res.json()
   const content = Buffer.from(data.content, 'base64').toString('utf-8')
   return { products: JSON.parse(content), sha: data.sha }
@@ -40,8 +46,8 @@ export async function GET() {
   try {
     const { products } = await getFile()
     return NextResponse.json(products)
-  } catch {
-    return NextResponse.json([], { status: 500 })
+  } catch (e) {
+    return NextResponse.json({ error: (e as Error).message }, { status: 500 })
   }
 }
 
