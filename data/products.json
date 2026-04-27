@@ -424,5 +424,13 @@
     "image": "https://m.media-amazon.com/images/I/61fMiU8zZBL._AC_SL1500_.jpg",
     "url": "https://amzn.to/4eSk9VE",
     "category": "bedding"
+  },
+  {
+    "id": 54,
+    "name": "レイチェア リクライニング",
+    "brand": "Coleman",
+    "image": "https://m.media-amazon.com/images/I/71cMxJ8IM0L._AC_SL1500_.jpg",
+    "url": "https://amzn.to/4uiPiX3",
+    "category": "chairtable"
   }
 ]
