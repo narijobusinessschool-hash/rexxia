@@ -432,5 +432,13 @@
     "image": "https://m.media-amazon.com/images/I/71cMxJ8IM0L._AC_SL1500_.jpg",
     "url": "https://amzn.to/4uiPiX3",
     "category": "chairtable"
+  },
+  {
+    "id": 55,
+    "name": "折りたたみ椅子",
+    "brand": "shiraya",
+    "image": "https://m.media-amazon.com/images/I/71bCHvbJiXL._AC_SL1500_.jpg",
+    "url": "https://amzn.to/4cUwlmr",
+    "category": "chairtable"
   }
 ]
