@@ -209,7 +209,7 @@ export default function AdminPage() {
         <h1 style={{ fontSize: '18px', fontWeight: '600', letterSpacing: '0.05em' }}>REXXIA 管理画面</h1>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <a
-            href="/"
+            href="https://www.rexxia.jp"
             target="_blank"
             rel="noopener noreferrer"
             style={{ fontSize: '12px', color: '#1a1a1a', border: '1px solid #ddd', borderRadius: '6px', padding: '6px 14px', textDecoration: 'none', letterSpacing: '0.03em' }}
