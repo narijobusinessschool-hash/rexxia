@@ -295,5 +295,13 @@
     "image": "https://m.media-amazon.com/images/I/61luLKK7cML._SL1500_.jpg",
     "url": "https://amzn.to/3Qya9qK",
     "category": "tableware"
+  },
+  {
+    "id": 38,
+    "name": "アルミ・チタンクッカー",
+    "brand": "Snow Peak",
+    "image": "https://m.media-amazon.com/images/I/41+ZzCs4AmL._AC_SL1500_.jpg",
+    "url": "https://amzn.to/48rfqGI",
+    "category": "tableware"
   }
 ]
