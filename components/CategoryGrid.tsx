@@ -45,11 +45,15 @@ export default function CategoryGrid() {
         }
         @media (max-width: 768px) {
           .category-grid {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(6, 1fr);
             gap: 8px;
           }
           .category-card {
+            grid-column: span 2;
             padding: 12px 8px;
+          }
+          .category-card:nth-child(n+7) {
+            grid-column: span 3;
           }
           .cat-name {
             font-size: 12px;
