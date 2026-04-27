@@ -464,5 +464,13 @@
     "image": "https://m.media-amazon.com/images/I/71Td8IeYRAL._AC_SL1500_.jpg",
     "url": "https://amzn.to/4ndS2CR",
     "category": "tableware"
+  },
+  {
+    "id": 59,
+    "name": "アルミロールテーブル",
+    "brand": "キャプテンスタッグ",
+    "image": "https://m.media-amazon.com/images/I/91qauP+wiTL._AC_SL1500_.jpg",
+    "url": "https://amzn.to/4ed6SXM",
+    "category": "chairtable"
   }
 ]
