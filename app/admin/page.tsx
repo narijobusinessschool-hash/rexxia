@@ -10,6 +10,7 @@ const CATEGORIES = [
   { id: 'tableware', name: 'クッカー・食器' },
   { id: 'wear', name: 'ウェア' },
   { id: 'bedding', name: '寝具' },
+  { id: 'accessory', name: '小物' },
   { id: 'others', name: 'その他' },
 ]
 

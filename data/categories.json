@@ -6,5 +6,6 @@
   { "id": "tableware", "name": "クッカー・食器", "nameEn": "COOKER", "slug": "tableware" },
   { "id": "wear", "name": "ウェア", "nameEn": "WEAR", "slug": "wear" },
   { "id": "bedding", "name": "寝具", "nameEn": "BEDDING", "slug": "bedding" },
+  { "id": "accessory", "name": "小物", "nameEn": "ACCESSORY", "slug": "accessory" },
   { "id": "others", "name": "その他", "nameEn": "OTHERS", "slug": "others" }
 ]

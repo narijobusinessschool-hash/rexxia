@@ -1,11 +1,14 @@
 import Link from 'next/link'
 import categories from '@/data/categories.json'
 
+const HIDDEN_FROM_HOME = new Set(['accessory'])
+
 export default function CategoryGrid() {
+  const visible = categories.filter(cat => !HIDDEN_FROM_HOME.has(cat.id))
   return (
     <>
       <div className="category-grid">
-        {categories.map(cat => (
+        {visible.map(cat => (
           <Link key={cat.id} href={`/${cat.slug}`} className="category-card">
             <p className="cat-name">{cat.name}</p>
             <p className="cat-name-en">{cat.nameEn}</p>
