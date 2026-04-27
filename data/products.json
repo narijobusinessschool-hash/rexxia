@@ -624,5 +624,13 @@
     "image": "https://m.media-amazon.com/images/I/61fh+36Gz+L._AC_SX679_.jpg",
     "url": "https://amzn.to/42jqQcd",
     "category": "wear"
+  },
+  {
+    "id": 79,
+    "name": "レインウェア",
+    "brand": "aoki outdoor",
+    "image": "https://m.media-amazon.com/images/I/51jL0L3LpQL._AC_SX679_.jpg",
+    "url": "https://amzn.to/4udyoZM",
+    "category": "wear"
   }
 ]
