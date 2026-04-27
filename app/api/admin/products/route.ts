@@ -7,18 +7,36 @@ const REPO = 'narijobusinessschool-hash/rexxia'
 const FILE_PATH = 'data/products.json'
 const GITHUB_API = `https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`
 
+function getGithubToken(): string | undefined {
+  const direct =
+    process.env.GITHUB_TOKEN ||
+    process.env.Github ||
+    process.env.github ||
+    process.env.GITHUB ||
+    process.env.GH_TOKEN
+  if (direct) return direct
+  for (const [k, v] of Object.entries(process.env)) {
+    if (!v) continue
+    if (k === 'AWS_LAMBDA_METADATA_TOKEN') continue
+    if (/^(ghp_|github_pat_|gho_|ghu_|ghs_)/.test(v)) return v
+    if (k.toLowerCase().includes('github')) return v
+  }
+  return undefined
+}
+
 function checkAuth(req: NextRequest) {
   return req.headers.get('x-admin-password') === process.env.ADMIN_PASSWORD
 }
 
 async function getFile() {
-  if (!process.env.GITHUB_TOKEN) {
+  const token = getGithubToken()
+  if (!token) {
     const envKeys = Object.keys(process.env).filter(k => k.toUpperCase().includes('GITHUB') || k.toUpperCase().includes('TOKEN')).join(', ') || '(none)'
     throw new Error(`GITHUB_TOKEN is not set (related env vars: ${envKeys})`)
   }
   const res = await fetch(GITHUB_API, {
     headers: {
-      Authorization: `token ${process.env.GITHUB_TOKEN}`,
+      Authorization: `token ${token}`,
       Accept: 'application/vnd.github.v3+json',
     },
     cache: 'no-store',
@@ -33,11 +51,13 @@ async function getFile() {
 }
 
 async function saveFile(products: unknown[], sha: string, message: string) {
+  const token = getGithubToken()
+  if (!token) throw new Error('GITHUB_TOKEN is not set')
   const content = Buffer.from(JSON.stringify(products, null, 2)).toString('base64')
   const res = await fetch(GITHUB_API, {
     method: 'PUT',
     headers: {
-      Authorization: `token ${process.env.GITHUB_TOKEN}`,
+      Authorization: `token ${token}`,
       Accept: 'application/vnd.github.v3+json',
       'Content-Type': 'application/json',
     },
