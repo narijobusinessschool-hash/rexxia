@@ -1,4 +1,5 @@
 import products from '@/data/products.json'
+import categories from '@/data/categories.json'
 import ProductGrid from '@/components/ProductGrid'
 
 export default async function SearchPage({
@@ -10,10 +11,19 @@ export default async function SearchPage({
   const q = rawQ.toLowerCase().trim()
 
   const results = q
-    ? products.filter(p =>
-        p.name.toLowerCase().includes(q) ||
-        (p.brand || '').toLowerCase().includes(q)
-      )
+    ? products.filter(p => {
+        const cat = categories.find(c => c.id === p.category)
+        const haystack = [
+          p.name,
+          p.brand || '',
+          p.category,
+          cat?.name || '',
+          cat?.nameEn || '',
+        ]
+          .join(' ')
+          .toLowerCase()
+        return haystack.includes(q)
+      })
     : []
 
   return (
