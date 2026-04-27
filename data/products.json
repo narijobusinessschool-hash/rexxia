@@ -544,5 +544,13 @@
     "image": "https://m.media-amazon.com/images/I/51RfPDL98TL._AC_.jpg",
     "url": "https://amzn.to/4vVEPlV",
     "category": "wear"
+  },
+  {
+    "id": 69,
+    "name": "トレーニングT-シャツUAテック2.0",
+    "brand": "UNDER ARMOUR",
+    "image": "https://m.media-amazon.com/images/I/71QSka53pJL._AC_SX679_.jpg",
+    "url": "https://amzn.to/4edRomg",
+    "category": "wear"
   }
 ]
