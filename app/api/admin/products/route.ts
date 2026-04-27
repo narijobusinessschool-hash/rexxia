@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 const REPO = 'narijobusinessschool-hash/rexxia'
 const FILE_PATH = 'data/products.json'
 const GITHUB_API = `https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`
@@ -10,7 +13,8 @@ function checkAuth(req: NextRequest) {
 
 async function getFile() {
   if (!process.env.GITHUB_TOKEN) {
-    throw new Error('GITHUB_TOKEN is not set')
+    const envKeys = Object.keys(process.env).filter(k => k.toUpperCase().includes('GITHUB') || k.toUpperCase().includes('TOKEN')).join(', ') || '(none)'
+    throw new Error(`GITHUB_TOKEN is not set (related env vars: ${envKeys})`)
   }
   const res = await fetch(GITHUB_API, {
     headers: {
