@@ -68,7 +68,7 @@ export async function PATCH(req: NextRequest) {
   if (!checkAuth(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await req.json()
-  const { id, image, url, published } = body
+  const { id, image, url, published, category } = body
   if (typeof id !== 'number') {
     return NextResponse.json({ error: 'Missing id' }, { status: 400 })
   }
@@ -84,6 +84,7 @@ export async function PATCH(req: NextRequest) {
       if (typeof image === 'string') next.image = image
       if (typeof url === 'string') next.url = url
       if (typeof published === 'boolean') next.published = published
+      if (typeof category === 'string') next.category = category
       return next
     })
     await saveFile(updated, sha, `Update product: ${target.name}`)

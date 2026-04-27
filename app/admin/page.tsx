@@ -41,7 +41,7 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [editing, setEditing] = useState<Product | null>(null)
-  const [editForm, setEditForm] = useState({ image: '', url: '', published: true })
+  const [editForm, setEditForm] = useState({ image: '', url: '', published: true, category: 'tent' })
 
   useEffect(() => {
     if (localStorage.getItem('admin_authed') === 'true') {
@@ -98,7 +98,7 @@ export default function AdminPage() {
 
   const openEdit = (p: Product) => {
     setEditing(p)
-    setEditForm({ image: p.image, url: p.url, published: p.published !== false })
+    setEditForm({ image: p.image, url: p.url, published: p.published !== false, category: p.category })
     setMessage('')
   }
 
@@ -125,6 +125,7 @@ export default function AdminPage() {
         image: editForm.image,
         url: editForm.url,
         published: editForm.published,
+        category: editForm.category,
       }),
     })
     if (res.ok) {
@@ -396,6 +397,23 @@ export default function AdminPage() {
                     </button>
                   </div>
                 </div>
+
+                {/* カテゴリー */}
+                <label style={{ display: 'block' }}>
+                  <span style={{ fontSize: '12px', color: '#666', display: 'block', marginBottom: '5px' }}>カテゴリー</span>
+                  <select
+                    style={inputStyle}
+                    value={editForm.category}
+                    onChange={e => setEditForm({ ...editForm, category: e.target.value })}
+                  >
+                    {CATEGORIES.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                  </select>
+                  {editForm.category !== editing.category && (
+                    <p style={{ fontSize: '10px', color: '#2a9d5c', marginTop: '4px' }}>
+                      ※ {CATEGORIES.find(c => c.id === editing.category)?.name} → {CATEGORIES.find(c => c.id === editForm.category)?.name} に変更
+                    </p>
+                  )}
+                </label>
 
                 {/* 画像URL */}
                 <label style={{ display: 'block' }}>
