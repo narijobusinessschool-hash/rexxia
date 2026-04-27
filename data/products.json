@@ -151,5 +151,13 @@
     "image": "https://m.media-amazon.com/images/I/71bpltQd1vL._AC_SL1500_.jpg",
     "url": "https://amzn.to/4d59SUV",
     "category": "tableware"
+  },
+  {
+    "id": 20,
+    "name": "ファイアーディスク",
+    "brand": "Coleman",
+    "image": "https://m.media-amazon.com/images/I/618y-F-rOXL._AC_SL1500_.jpg",
+    "url": "https://amzn.to/42tGHoq",
+    "category": "burner"
   }
 ]
