@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import Script from 'next/script'
 import './globals.css'
 import Header from '@/components/Header'
-import MobileFooterNav from '@/components/MobileFooterNav'
 
 export const metadata: Metadata = {
   title: 'REXXIA | キャンプギア セレクトショップ',
@@ -31,10 +30,9 @@ export default function RootLayout({
       </head>
       <body>
         <Header />
-        <main style={{ paddingBottom: '80px' }}>
+        <main>
           {children}
         </main>
-        <MobileFooterNav />
       </body>
     </html>
   )
