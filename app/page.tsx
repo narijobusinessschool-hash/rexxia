@@ -3,6 +3,8 @@ import CategoryGrid from '@/components/CategoryGrid'
 import ProductGrid from '@/components/ProductGrid'
 import PopularProducts from '@/components/PopularProducts'
 
+export const revalidate = 0
+
 export default function Home() {
   return (
     <>

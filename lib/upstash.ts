@@ -1,8 +1,6 @@
 const KV_URL = process.env.KV_REST_API_URL
 const KV_TOKEN = process.env.KV_REST_API_TOKEN
 
-export const POPULAR_TAG = 'popular-products'
-
 export function monthKey(): string {
   const d = new Date()
   return `clicks:${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`

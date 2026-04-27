@@ -1,19 +1,14 @@
-import { unstable_cache } from 'next/cache'
 import products from '@/data/products.json'
 import ProductCard from './ProductCard'
-import { upstashCmd, monthKey, POPULAR_TAG } from '@/lib/upstash'
+import { upstashCmd, monthKey } from '@/lib/upstash'
 
-const fetchTopIds = unstable_cache(
-  async (limit: number): Promise<number[]> => {
-    const data = await upstashCmd(['ZREVRANGE', monthKey(), 0, limit - 1])
-    if (!Array.isArray(data)) return []
-    return data
-      .map(s => Number(String(s)))
-      .filter((n): n is number => Number.isFinite(n))
-  },
-  ['popular-products-top'],
-  { revalidate: 60, tags: [POPULAR_TAG] }
-)
+async function fetchTopIds(limit: number): Promise<number[]> {
+  const data = await upstashCmd(['ZREVRANGE', monthKey(), 0, limit - 1])
+  if (!Array.isArray(data)) return []
+  return data
+    .map(s => Number(String(s)))
+    .filter((n): n is number => Number.isFinite(n))
+}
 
 export default async function PopularProducts() {
   const ids = await fetchTopIds(10)
