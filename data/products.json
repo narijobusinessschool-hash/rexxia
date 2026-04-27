@@ -54,5 +54,13 @@
     "image": "https://m.media-amazon.com/images/I/714tGKrU+-L._AC_SL1500_.jpg",
     "url": "https://amzn.to/4sXsw5M",
     "category": "bedding"
+  },
+  {
+    "id": 8,
+    "name": "アルミキャンピングケットル",
+    "brand": "キャプテンスタッグ",
+    "image": "https://m.media-amazon.com/images/I/71O1euVx+sL._AC_SL1500_.jpg",
+    "url": "https://amzn.to/4n4aOwb",
+    "category": "tableware"
   }
 ]
