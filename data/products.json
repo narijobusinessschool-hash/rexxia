@@ -143,5 +143,13 @@
     "image": "https://m.media-amazon.com/images/I/61WQJr5ZCLL._AC_SL1500_.jpg",
     "url": "https://amzn.to/4d9hHcc",
     "category": "burner"
+  },
+  {
+    "id": 19,
+    "name": "ホットサンドメーカー",
+    "brand": "Latuna",
+    "image": "https://m.media-amazon.com/images/I/71bpltQd1vL._AC_SL1500_.jpg",
+    "url": "https://amzn.to/4d59SUV",
+    "category": "tableware"
   }
 ]
