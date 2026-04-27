@@ -376,5 +376,13 @@
     "image": "https://m.media-amazon.com/images/I/81w587zMLzL._AC_SL1500_.jpg",
     "url": "https://amzn.to/4ucbjGM",
     "category": "tableware"
+  },
+  {
+    "id": 48,
+    "name": "アルミクッカーセット",
+    "brand": "SOHAPI",
+    "image": "https://m.media-amazon.com/images/I/61sG341JUfL._AC_SL1100_.jpg",
+    "url": "https://amzn.to/3OOtjb9",
+    "category": "tableware"
   }
 ]
