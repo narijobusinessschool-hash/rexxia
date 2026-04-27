@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { revalidateTag } from 'next/cache'
 import products from '@/data/products.json'
-import { upstashCmd, monthKey, POPULAR_TAG } from '@/lib/upstash'
+import { upstashCmd, monthKey } from '@/lib/upstash'
 
 export const dynamic = 'force-dynamic'
 
@@ -18,11 +17,6 @@ export async function GET(
   }
 
   await upstashCmd(['ZINCRBY', monthKey(), 1, productId])
-  try {
-    revalidateTag(POPULAR_TAG)
-  } catch {
-    // ignore
-  }
 
   return NextResponse.redirect(product.url, 302)
 }
