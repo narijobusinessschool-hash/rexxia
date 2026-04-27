@@ -1,10 +1,22 @@
 'use client'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import categories from '@/data/categories.json'
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [query, setQuery] = useState('')
+  const router = useRouter()
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    const q = query.trim()
+    if (!q) return
+    router.push(`/search?q=${encodeURIComponent(q)}`)
+    setQuery('')
+    setMenuOpen(false)
+  }
 
   return (
     <header style={{
@@ -44,24 +56,56 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* ハンバーガーボタン */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="hamburger-btn"
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: '8px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '5px'
-          }}
-        >
-          <span style={{ display: 'block', width: '22px', height: '2px', background: '#fff', transition: 'transform 0.3s', transform: menuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none' }}></span>
-          <span style={{ display: 'block', width: '22px', height: '2px', background: '#fff', opacity: menuOpen ? 0 : 1, transition: 'opacity 0.3s' }}></span>
-          <span style={{ display: 'block', width: '22px', height: '2px', background: '#fff', transition: 'transform 0.3s', transform: menuOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none' }}></span>
-        </button>
+        {/* 検索＋ハンバーガー */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <form onSubmit={handleSearch} style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2" style={{ position: 'absolute', left: '8px', pointerEvents: 'none' }}>
+                <circle cx="11" cy="11" r="7" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
+              <input
+                type="search"
+                value={query}
+                onChange={e => setQuery(e.target.value)}
+                placeholder="検索"
+                aria-label="商品検索"
+                className="header-search"
+                style={{
+                  width: '130px',
+                  padding: '7px 10px 7px 26px',
+                  background: '#222',
+                  border: '1px solid #333',
+                  borderRadius: '6px',
+                  color: '#fff',
+                  fontSize: '12px',
+                  outline: 'none',
+                  boxSizing: 'border-box',
+                }}
+              />
+            </div>
+          </form>
+
+          {/* ハンバーガーボタン */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="hamburger-btn"
+            aria-label="メニュー"
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '8px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '5px'
+            }}
+          >
+            <span style={{ display: 'block', width: '22px', height: '2px', background: '#fff', transition: 'transform 0.3s', transform: menuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none' }}></span>
+            <span style={{ display: 'block', width: '22px', height: '2px', background: '#fff', opacity: menuOpen ? 0 : 1, transition: 'opacity 0.3s' }}></span>
+            <span style={{ display: 'block', width: '22px', height: '2px', background: '#fff', transition: 'transform 0.3s', transform: menuOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none' }}></span>
+          </button>
+        </div>
       </div>
 
       {/* モバイルメニュー */}
@@ -95,9 +139,15 @@ export default function Header() {
 
       <style>{`
         .desktop-nav { display: none !important; }
+        .header-search::placeholder { color: #888; }
+        .header-search:focus { border-color: #555; background: #2a2a2a; }
         @media (min-width: 768px) {
           .desktop-nav { display: flex !important; }
           .hamburger-btn { display: none !important; }
+          .header-search { width: 200px !important; }
+        }
+        @media (max-width: 380px) {
+          .header-search { width: 100px !important; }
         }
       `}</style>
     </header>
