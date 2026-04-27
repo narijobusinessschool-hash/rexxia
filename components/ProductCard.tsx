@@ -5,6 +5,7 @@ interface Product {
   image: string
   url: string
   category: string
+  published?: boolean
 }
 
 export default function ProductCard({ product }: { product: Product }) {

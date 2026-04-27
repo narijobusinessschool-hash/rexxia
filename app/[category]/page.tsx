@@ -8,8 +8,9 @@ export async function generateStaticParams() {
   return categories.map(cat => ({ category: cat.slug }))
 }
 
-export async function generateMetadata({ params }: { params: { category: string } }): Promise<Metadata> {
-  const category = categories.find(c => c.slug === params.category)
+export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
+  const { category: slug } = await params
+  const category = categories.find(c => c.slug === slug)
   if (!category) return {}
   return {
     title: `${category.name} | REXXIA`,
@@ -17,11 +18,12 @@ export async function generateMetadata({ params }: { params: { category: string 
   }
 }
 
-export default function CategoryPage({ params }: { params: { category: string } }) {
-  const category = categories.find(c => c.slug === params.category)
+export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
+  const { category: slug } = await params
+  const category = categories.find(c => c.slug === slug)
   if (!category) notFound()
 
-  const categoryProducts = products.filter(p => p.category === params.category)
+  const categoryProducts = products.filter(p => p.category === slug && (p as { published?: boolean }).published !== false)
 
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px 16px' }}>

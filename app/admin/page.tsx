@@ -30,6 +30,7 @@ interface Product {
   image: string
   url: string
   category: string
+  published?: boolean
 }
 
 export default function AdminPage() {
@@ -39,6 +40,8 @@ export default function AdminPage() {
   const [form, setForm] = useState({ name: '', brand: '', image: '', url: '', category: 'tent' })
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [editing, setEditing] = useState<Product | null>(null)
+  const [editForm, setEditForm] = useState({ image: '', url: '', published: true })
 
   useEffect(() => {
     if (localStorage.getItem('admin_authed') === 'true') {
@@ -86,6 +89,47 @@ export default function AdminPage() {
     if (res.ok) {
       setMessage('✓ 追加しました。1〜2分後にサイトに反映されます。')
       setForm({ name: '', brand: '', image: '', url: '', category: 'tent' })
+      fetchProducts()
+    } else {
+      setMessage('エラーが発生しました')
+    }
+    setLoading(false)
+  }
+
+  const openEdit = (p: Product) => {
+    setEditing(p)
+    setEditForm({ image: p.image, url: p.url, published: p.published !== false })
+    setMessage('')
+  }
+
+  const closeEdit = () => {
+    setEditing(null)
+  }
+
+  const handleSaveEdit = async () => {
+    if (!editing) return
+    if (!editForm.image || !editForm.url) {
+      setMessage('画像URL・アフィリエイトURLは必須です')
+      return
+    }
+    setLoading(true)
+    setMessage('')
+    const res = await fetch('/api/admin/products', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-admin-password': localStorage.getItem('admin_pw') || '',
+      },
+      body: JSON.stringify({
+        id: editing.id,
+        image: editForm.image,
+        url: editForm.url,
+        published: editForm.published,
+      }),
+    })
+    if (res.ok) {
+      setMessage('✓ 更新しました。1〜2分後に反映されます。')
+      setEditing(null)
       fetchProducts()
     } else {
       setMessage('エラーが発生しました')
@@ -209,26 +253,207 @@ export default function AdminPage() {
       <h2 style={{ fontSize: '14px', fontWeight: '600', marginBottom: '14px', letterSpacing: '0.05em' }}>
         商品一覧 <span style={{ color: '#999', fontWeight: '400' }}>({products.length}件)</span>
       </h2>
+      <p style={{ fontSize: '11px', color: '#999', marginBottom: '12px' }}>商品をクリックすると編集できます</p>
       <div style={{ display: 'grid', gap: '8px' }}>
-        {products.map(p => (
-          <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', border: '1px solid #e8e8e8', borderRadius: '8px', padding: '10px 12px' }}>
-            <img src={p.image} alt={p.name} style={{ width: '52px', height: '52px', objectFit: 'contain', background: '#f8f8f8', borderRadius: '4px', flexShrink: 0 }} />
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: '13px', fontWeight: '500', marginBottom: '3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.name}</p>
-              <p style={{ fontSize: '11px', color: '#999' }}>
-                {p.brand && `${p.brand} / `}{CATEGORIES.find(c => c.id === p.category)?.name}
-              </p>
-            </div>
-            <button
-              onClick={() => handleDelete(p.id, p.name)}
-              disabled={loading}
-              style={{ padding: '5px 12px', background: 'none', border: '1px solid #ddd', borderRadius: '4px', fontSize: '12px', color: '#e55', cursor: 'pointer', flexShrink: 0 }}
+        {products.map(p => {
+          const isPublished = p.published !== false
+          return (
+            <div
+              key={p.id}
+              onClick={() => openEdit(p)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                border: '1px solid #e8e8e8',
+                borderRadius: '8px',
+                padding: '10px 12px',
+                cursor: 'pointer',
+                background: isPublished ? '#fff' : '#fafafa',
+                opacity: isPublished ? 1 : 0.6,
+                transition: 'border-color 0.15s, background 0.15s',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.borderColor = '#aaa')}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = '#e8e8e8')}
             >
-              削除
-            </button>
-          </div>
-        ))}
+              <img src={p.image} alt={p.name} style={{ width: '52px', height: '52px', objectFit: 'contain', background: '#f8f8f8', borderRadius: '4px', flexShrink: 0 }} />
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '3px' }}>
+                  <p style={{ fontSize: '13px', fontWeight: '500', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', margin: 0 }}>{p.name}</p>
+                  {!isPublished && (
+                    <span style={{ fontSize: '10px', color: '#999', border: '1px solid #ddd', borderRadius: '3px', padding: '1px 6px', flexShrink: 0 }}>非公開</span>
+                  )}
+                </div>
+                <p style={{ fontSize: '11px', color: '#999' }}>
+                  {p.brand && `${p.brand} / `}{CATEGORIES.find(c => c.id === p.category)?.name}
+                </p>
+              </div>
+              <button
+                onClick={e => { e.stopPropagation(); handleDelete(p.id, p.name) }}
+                disabled={loading}
+                style={{ padding: '5px 12px', background: 'none', border: '1px solid #ddd', borderRadius: '4px', fontSize: '12px', color: '#e55', cursor: 'pointer', flexShrink: 0 }}
+              >
+                削除
+              </button>
+            </div>
+          )
+        })}
       </div>
+
+      {/* 編集モーダル */}
+      {editing && (
+        <div
+          onClick={closeEdit}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 100,
+            padding: '16px',
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              background: '#fff',
+              borderRadius: '10px',
+              padding: '28px',
+              width: '100%',
+              maxWidth: '780px',
+              maxHeight: '90vh',
+              overflow: 'auto',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
+              <div>
+                <p style={{ fontSize: '11px', color: '#999', marginBottom: '4px' }}>編集中</p>
+                <h2 style={{ fontSize: '15px', fontWeight: '600' }}>{editing.name}</h2>
+                <p style={{ fontSize: '11px', color: '#999', marginTop: '3px' }}>
+                  {editing.brand && `${editing.brand} / `}{CATEGORIES.find(c => c.id === editing.category)?.name}
+                </p>
+              </div>
+              <button
+                onClick={closeEdit}
+                style={{ background: 'none', border: 'none', fontSize: '20px', color: '#999', cursor: 'pointer', lineHeight: 1, padding: '4px 8px' }}
+                aria-label="閉じる"
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="edit-grid" style={{ display: 'grid', gridTemplateColumns: '220px 1fr', gap: '24px' }}>
+              {/* 左：現在の画像 */}
+              <div>
+                <p style={{ fontSize: '11px', color: '#999', marginBottom: '6px' }}>現在の画像</p>
+                <div style={{ width: '100%', aspectRatio: '1 / 1', background: '#f8f8f8', border: '1px solid #e8e8e8', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                  <img src={editForm.image || editing.image} alt={editing.name} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+                </div>
+                {editForm.image && editForm.image !== editing.image && (
+                  <p style={{ fontSize: '10px', color: '#2a9d5c', marginTop: '6px' }}>※ 新しい画像でプレビュー中</p>
+                )}
+              </div>
+
+              {/* 右：編集フォーム */}
+              <div style={{ display: 'grid', gap: '16px', alignContent: 'start' }}>
+                {/* 公開・非公開 */}
+                <div>
+                  <p style={{ fontSize: '12px', color: '#666', marginBottom: '8px' }}>公開状態</p>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <button
+                      type="button"
+                      onClick={() => setEditForm({ ...editForm, published: true })}
+                      style={{
+                        flex: 1,
+                        padding: '8px 12px',
+                        border: editForm.published ? '1px solid #1a1a1a' : '1px solid #ddd',
+                        background: editForm.published ? '#1a1a1a' : '#fff',
+                        color: editForm.published ? '#fff' : '#666',
+                        borderRadius: '6px',
+                        fontSize: '13px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      公開
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setEditForm({ ...editForm, published: false })}
+                      style={{
+                        flex: 1,
+                        padding: '8px 12px',
+                        border: !editForm.published ? '1px solid #1a1a1a' : '1px solid #ddd',
+                        background: !editForm.published ? '#1a1a1a' : '#fff',
+                        color: !editForm.published ? '#fff' : '#666',
+                        borderRadius: '6px',
+                        fontSize: '13px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      非公開
+                    </button>
+                  </div>
+                </div>
+
+                {/* 画像URL */}
+                <label style={{ display: 'block' }}>
+                  <span style={{ fontSize: '12px', color: '#666', display: 'block', marginBottom: '5px' }}>画像URL</span>
+                  <input
+                    style={inputStyle}
+                    value={editForm.image}
+                    onChange={e => setEditForm({ ...editForm, image: e.target.value })}
+                    placeholder="https://m.media-amazon.com/..."
+                  />
+                </label>
+
+                {/* アフィリエイトURL */}
+                <label style={{ display: 'block' }}>
+                  <span style={{ fontSize: '12px', color: '#666', display: 'block', marginBottom: '5px' }}>アフィリエイトURL</span>
+                  <input
+                    style={inputStyle}
+                    value={editForm.url}
+                    onChange={e => setEditForm({ ...editForm, url: e.target.value })}
+                    placeholder="https://amzn.to/..."
+                  />
+                  <a
+                    href={editForm.url || editing.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ fontSize: '11px', color: '#666', textDecoration: 'underline', marginTop: '6px', display: 'inline-block' }}
+                  >
+                    現在のリンクを開く →
+                  </a>
+                </label>
+
+                <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                  <button
+                    onClick={handleSaveEdit}
+                    disabled={loading}
+                    style={{ flex: 1, padding: '10px', background: '#1a1a1a', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: '500', cursor: loading ? 'default' : 'pointer', opacity: loading ? 0.6 : 1 }}
+                  >
+                    {loading ? '保存中...' : '保存する'}
+                  </button>
+                  <button
+                    onClick={closeEdit}
+                    disabled={loading}
+                    style={{ padding: '10px 20px', background: '#fff', color: '#666', border: '1px solid #ddd', borderRadius: '6px', fontSize: '13px', cursor: 'pointer' }}
+                  >
+                    キャンセル
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <style>{`
+              @media (max-width: 640px) {
+                .edit-grid { grid-template-columns: 1fr !important; }
+              }
+            `}</style>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

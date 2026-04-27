@@ -7,13 +7,15 @@ interface Product {
   image: string
   url: string
   category: string
+  published?: boolean
 }
 
 export default function ProductGrid({ products }: { products: Product[] }) {
+  const visible = products.filter(p => p.published !== false)
   return (
     <>
       <div className="product-grid">
-        {products.map(product => (
+        {visible.map(product => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>

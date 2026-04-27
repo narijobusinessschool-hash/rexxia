@@ -64,6 +64,35 @@ export async function POST(req: NextRequest) {
   }
 }
 
+export async function PATCH(req: NextRequest) {
+  if (!checkAuth(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const body = await req.json()
+  const { id, image, url, published } = body
+  if (typeof id !== 'number') {
+    return NextResponse.json({ error: 'Missing id' }, { status: 400 })
+  }
+
+  try {
+    const { products, sha } = await getFile()
+    const target = (products as {id:number, name:string}[]).find(p => p.id === id)
+    if (!target) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+
+    const updated = (products as Record<string, unknown>[]).map(p => {
+      if (p.id !== id) return p
+      const next = { ...p }
+      if (typeof image === 'string') next.image = image
+      if (typeof url === 'string') next.url = url
+      if (typeof published === 'boolean') next.published = published
+      return next
+    })
+    await saveFile(updated, sha, `Update product: ${target.name}`)
+    return NextResponse.json({ success: true })
+  } catch {
+    return NextResponse.json({ error: 'Failed to save' }, { status: 500 })
+  }
+}
+
 export async function DELETE(req: NextRequest) {
   if (!checkAuth(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
