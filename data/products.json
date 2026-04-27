@@ -303,5 +303,13 @@
     "image": "https://m.media-amazon.com/images/I/41+ZzCs4AmL._AC_SL1500_.jpg",
     "url": "https://amzn.to/48rfqGI",
     "category": "tableware"
+  },
+  {
+    "id": 39,
+    "name": "ソロトング 21cm",
+    "brand": "キャプテンスタッグ",
+    "image": "https://m.media-amazon.com/images/I/61hfdSoyt-L._AC_SL1500_.jpg",
+    "url": "https://amzn.to/4ucQWt0",
+    "category": "burner"
   }
 ]
