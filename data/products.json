@@ -127,5 +127,13 @@
     "image": "https://m.media-amazon.com/images/I/511pdxrk5KL._AC_SL1000_.jpg",
     "url": "https://amzn.to/3P5xsYs",
     "category": "others"
+  },
+  {
+    "id": 17,
+    "name": "マルチグリドル",
+    "brand": "JIKABI JAPAN",
+    "image": "https://m.media-amazon.com/images/I/71tlxbZZArL._AC_SL1500_.jpg",
+    "url": "https://amzn.to/4vUmbe1",
+    "category": "tableware"
   }
 ]
